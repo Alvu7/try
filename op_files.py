@@ -64,9 +64,17 @@ pedidos = [
     {"id_cliente": "1", "producto": "Teclado", "precio": "45.00", "cantidad": "1"},
 ]
 
+ventas = [
+    {"id_cliente": "1", "id_pedido": "Laptop", "precio": "2500.00", "cantidad": "1"},
+    {"id_cliente": "2", "id_pedido": "Mouse", "precio": "20.50", "cantidad": "2"},
+    {"id_cliente": "1", "id_pedido": "Teclado", "precio": "45.00", "cantidad": "1"},
+]
+
+
 f = F()
 f.write("clientes.csv", clientes, "id_cliente")
 f.write("pedidos.csv", pedidos, "id_pedido")
+f.write("ventas.csv", pedidos, "id_pedido")
 
 def menu():
     while True:
