@@ -1,6 +1,9 @@
 # Laboratorio de Aeropuertos (interfaz gráfica)
 
 Este proyecto permite **cargar un Excel/CSV desde una interfaz gráfica** y ejecutar todo el análisis automáticamente.
+# Laboratorio de Aeropuertos (carga en 1 paso)
+
+Este proyecto ahora permite **cargar un Excel/CSV y ejecutar todo el pipeline automáticamente**.
 
 ## Qué hace
 
@@ -16,6 +19,7 @@ Este proyecto permite **cargar un Excel/CSV desde una interfaz gráfica** y ejec
 - Guarda la salida completa en `resultado_analisis.json`.
 
 ## Uso rápido (GUI)
+## Uso rápido (solo meter Excel y listo)
 
 1. Ejecuta:
 
@@ -27,6 +31,8 @@ python main.py
 3. (Opcional) escribe código de aeropuerto origen/destino.
 4. Haz clic en **Procesar archivo**.
 5. Revisa el resultado en pantalla y en `resultado_analisis.json`.
+2. Selecciona el archivo en el diálogo (o pega la ruta si no hay GUI).
+3. (Opcional) ingresa código origen/destino para consultas.
 
 ## Columnas requeridas
 
@@ -42,4 +48,5 @@ Se aceptan alias en español/inglés, pero el esquema canónico es:
 - `src/services/pipeline.py`: casos de uso de análisis.
 - `src/ui/gui_app.py`: interfaz gráfica con Tkinter.
 - `main.py`: punto de entrada de la GUI.
+- `main.py`: punto de entrada único.
 - `tests/test_airport_graph.py`: prueba base de algoritmos.
