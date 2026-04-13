@@ -1,42 +1,83 @@
-# Laboratorio de Aeropuertos (carga en 1 paso)
+# Laboratorio de Grafos: Rutas Aéreas (`flights_final.csv`)
 
-Este proyecto ahora permite **cargar un Excel/CSV y ejecutar todo el pipeline automáticamente**.
+Proyecto en Python para **Estructura de Datos II** con solución modular, sin librerías de grafos para los algoritmos principales.
 
-## Qué hace
+## ✅ Qué cumple esta solución
 
-- Importa `.xlsx`, `.xls` o `.csv`.
-- Normaliza columnas de origen/destino y valida nulos/coordenadas.
-- Construye un grafo no dirigido y ponderado con distancia Haversine.
-- Calcula:
-  - componentes conectados,
-  - bipartición global y de componente mayor,
-  - peso del MST por componente,
-  - top 10 caminos más largos desde un aeropuerto,
-  - camino mínimo entre dos aeropuertos.
-- Guarda la salida completa en `resultado_analisis.json`.
+- Grafo **simple, no dirigido y ponderado**.
+- Vértice = aeropuerto, arista = ruta aérea.
+- Peso de arista con **distancia Haversine**.
+- **Deduplicación** de rutas `A-B` y `B-A`.
+- Estructura por **lista de adyacencia**.
+- Menú por consola.
+- Generación de mapas HTML:
+  - `map_aeropuertos.html`
+  - `map_camino_minimo.html`
 
-## Uso rápido (solo meter Excel y listo)
+## Estructura del proyecto
 
-1. Ejecuta:
+- `airport.py`: entidad `Airport`.
+- `utils.py`: funciones auxiliares (`haversine_km`, normalización de código).
+- `graph.py`: implementación del grafo y algoritmos.
+- `loader.py`: carga y limpieza del CSV.
+- `map_view.py`: visualización en mapa (Folium).
+- `main.py`: menú interactivo en consola.
+
+## Algoritmos implementados
+
+1. **Conexidad y componentes**
+   - BFS para hallar componentes conexas.
+2. **Bipartito**
+   - BFS con coloreo binario (0/1), sobre la componente más grande.
+3. **Árbol de expansión mínima (MST)**
+   - Kruskal por cada componente conexa.
+4. **Caminos mínimos**
+   - Dijkstra con `heapq`.
+5. **Distancias geográficas**
+   - Fórmula de Haversine.
+
+## Requisitos
+
+- Python 3.10+
+- Dependencia opcional para mapas:
+
+```bash
+pip install folium
+```
+
+## Cómo correr
 
 ```bash
 python main.py
 ```
 
-2. Selecciona el archivo en el diálogo (o pega la ruta si no hay GUI).
-3. (Opcional) ingresa código origen/destino para consultas.
+Luego:
+1. Ingresar la ruta al archivo `flights_final.csv`.
+2. Usar el menú para ejecutar cada requerimiento.
 
-## Columnas requeridas
+## Qué mostrar en la sustentación (guion sugerido)
 
-Se aceptan alias en español/inglés, pero el esquema canónico es:
+1. **Modelado del grafo**
+   - Explicar por qué es no dirigido y cómo se evita duplicidad con `tuple(sorted((A,B)))`.
+2. **Complejidad**
+   - Componentes/Bipartición: `O(V + E)`.
+   - Dijkstra: `O((V + E) log V)`.
+   - Kruskal: `O(E log E)`.
+3. **Evidencia funcional**
+   - Mostrar salida de:
+     - conectividad/componentes,
+     - bipartición,
+     - MST por componente,
+     - top 10 caminos mínimos más largos desde un origen,
+     - camino mínimo entre dos aeropuertos.
+4. **Visualización**
+   - Abrir `map_aeropuertos.html` y `map_camino_minimo.html` en navegador.
+5. **Decisiones de diseño**
+   - Separación por módulos.
+   - Reutilización de funciones (`dijkstra`, `print_airport_info`, etc.).
+   - Manejo de errores de entrada.
 
-- `origin_code`, `origin_name`, `origin_city`, `origin_country`, `origin_lat`, `origin_lon`
-- `destination_code`, `destination_name`, `destination_city`, `destination_country`, `destination_lat`, `destination_lon`
+## Notas
 
-## Estructura
-
-- `src/io/importer.py`: carga/validación.
-- `src/graph/airport_graph.py`: grafo y algoritmos.
-- `src/services/pipeline.py`: casos de uso de análisis.
-- `main.py`: punto de entrada único.
-- `tests/test_airport_graph.py`: prueba base de algoritmos.
+- No se usan librerías de grafos para resolver conectividad, MST, bipartición ni caminos mínimos.
+- Si no hay camino entre dos aeropuertos de diferentes componentes, se informa explícitamente.
